@@ -54,8 +54,6 @@ class CommissionCalculatorTest extends TestCase
         // Process each operation and calculate the commission fee
         $calculatedFees = [];
         foreach ($operations as $operation) {
-            $commissionFee = 0.00;
-
             if ($operation->getOperationType() === Operation::OPERATION_TYPE_DEPOSIT) {
                 $commissionFee = $depositCalculator->calculateCommissionFee($operation);
             } else{
