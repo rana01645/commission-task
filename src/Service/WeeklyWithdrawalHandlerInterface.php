@@ -1,0 +1,9 @@
+<?php
+
+namespace App\CommissionTask\Service;
+
+interface WeeklyWithdrawalHandlerInterface
+{
+    public function getCommissionableAmount(int $clientId, float $amount, string $date): float;
+
+}
