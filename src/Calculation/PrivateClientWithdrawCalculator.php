@@ -52,11 +52,10 @@ class PrivateClientWithdrawCalculator
             $convertedAmount,
             $operation->getDate()
         );
+        // Convert the commission fee back to the original currency
+        $commissionFee = $this->currencyConverter->convert($commissionAbleAmount, 'EUR', $currency);
 
         // Calculate the commission fee based on the commission-able amount and the withdrawal fee rate
-        $commission = $commissionAbleAmount * self::WITHDRAWAL_FEE_RATE;
-
-        // Convert the commission fee back to the original currency
-        return $this->currencyConverter->convert($commission, 'EUR', $currency);
+        return $commissionFee * self::WITHDRAWAL_FEE_RATE;
     }
 }
