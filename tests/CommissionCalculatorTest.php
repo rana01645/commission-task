@@ -5,6 +5,7 @@ namespace App\CommissionTask\Tests;
 use App\CommissionTask\Calculation\BusinessClientWithdrawCalculator;
 use App\CommissionTask\Calculation\DepositCalculator;
 use App\CommissionTask\Calculation\PrivateClientWithdrawCalculator;
+use App\CommissionTask\Entity\Operation;
 use App\CommissionTask\Factory\OperationFactory;
 use App\CommissionTask\Reader\CsvReader;
 use App\CommissionTask\Repository\CurrencyExchangeRates;
@@ -55,12 +56,14 @@ class CommissionCalculatorTest extends TestCase
         foreach ($operations as $operation) {
             $commissionFee = 0.00;
 
-            if ($operation->getOperationType() === 'deposit') {
+            if ($operation->getOperationType() === Operation::OPERATION_TYPE_DEPOSIT) {
                 $commissionFee = $depositCalculator->calculateCommissionFee($operation);
-            } elseif ($operation->getUserType() === 'private') {
-                $commissionFee = $privateWithdrawCalculator->calculateCommissionFee($operation);
-            } elseif ($operation->getUserType() === 'business') {
-                $commissionFee = $businessWithdrawCalculator->calculateCommissionFee($operation);
+            } else{
+                if ($operation->getUserType() === Operation::USER_TYPE_PRIVATE) {
+                    $commissionFee = $privateWithdrawCalculator->calculateCommissionFee($operation);
+                } else {
+                    $commissionFee = $businessWithdrawCalculator->calculateCommissionFee($operation);
+                }
             }
 
             // Round the commission fee

@@ -18,6 +18,10 @@ class Operation
     private $amount;
     private $currency;
 
+    const OPERATION_TYPE_DEPOSIT = 'deposit';
+    const OPERATION_TYPE_WITHDRAW = 'withdraw';
+    const USER_TYPE_PRIVATE = 'private';
+
     /**
      * Operation constructor.
      *
