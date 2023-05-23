@@ -10,3 +10,5 @@ How to run the program:
 3. copy the .env.example file to .env and set the correct url for `CURRENCY_CONVERTER_API`
 4. Run `php src/script.php assets/input.csv` to run the program
 5. Run `composer run test` to run the tests
+6. Complete automation test that takes the provided input in the task, processes it and checks the output: 
+   `CommissionCalculatorTest.php`
