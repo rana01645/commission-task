@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\CommissionTask\Entity;
 
 /**
- * Class Operation
+ * Class Operation.
  *
  * Represents a financial operation.
  */
@@ -19,12 +21,12 @@ class Operation
     /**
      * Operation constructor.
      *
-     * @param  string  $date  The date of the operation.
-     * @param  int  $userIdentification  The identifier of the user.
-     * @param  string  $userType  The type of the user.
-     * @param  string  $operationType  The type of the operation.
-     * @param  string  $amount  The amount of the operation.
-     * @param  string  $currency  The currency of the operation.
+     * @param string $date               the date of the operation
+     * @param int    $userIdentification the identifier of the user
+     * @param string $userType           the type of the user
+     * @param string $operationType      the type of the operation
+     * @param string $amount             the amount of the operation
+     * @param string $currency           the currency of the operation
      */
     public function __construct(
         string $date,
@@ -45,7 +47,7 @@ class Operation
     /**
      * Get the date of the operation.
      *
-     * @return string The date of the operation.
+     * @return string the date of the operation
      */
     public function getDate(): string
     {
@@ -55,7 +57,7 @@ class Operation
     /**
      * Get the identifier of the user.
      *
-     * @return int The identifier of the user.
+     * @return int the identifier of the user
      */
     public function getUserIdentificator(): int
     {
@@ -65,7 +67,7 @@ class Operation
     /**
      * Get the type of the user.
      *
-     * @return string The type of the user.
+     * @return string the type of the user
      */
     public function getUserType(): string
     {
@@ -75,7 +77,7 @@ class Operation
     /**
      * Get the type of the operation.
      *
-     * @return string The type of the operation.
+     * @return string the type of the operation
      */
     public function getOperationType(): string
     {
@@ -85,9 +87,9 @@ class Operation
     /**
      * Get the amount of the operation.
      *
-     * @return float The amount of the operation.
+     * @return string the amount of the operation
      */
-    public function getAmount(): float
+    public function getAmount(): string
     {
         return $this->amount;
     }
@@ -95,7 +97,7 @@ class Operation
     /**
      * Get the currency of the operation.
      *
-     * @return string The currency of the operation.
+     * @return string the currency of the operation
      */
     public function getCurrency(): string
     {
@@ -105,10 +107,17 @@ class Operation
     /**
      * Get the count of decimal places in the amount.
      *
-     * @return int The count of decimal places in the amount.
+     * @return int the count of decimal places in the amount
      */
     public function getFractionCount(): int
     {
-        return strlen(substr(strrchr($this->amount, "."), 1));
+        $lastDotPosition = strrpos($this->amount, '.');
+        if ($lastDotPosition !== false) {
+            $fractionalLength = strlen(substr($this->amount, $lastDotPosition + 1));
+        } else {
+            $fractionalLength = 0;
+        }
+
+        return $fractionalLength;
     }
 }

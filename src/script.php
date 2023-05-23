@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\CommissionTask;
 
 require __DIR__.'/../vendor/autoload.php';
 
-use Dotenv\Dotenv;
 use App\CommissionTask\Calculation\BusinessClientWithdrawCalculator;
 use App\CommissionTask\Calculation\DepositCalculator;
 use App\CommissionTask\Calculation\PrivateClientWithdrawCalculator;
@@ -14,6 +15,7 @@ use App\CommissionTask\Repository\CurrencyExchangeRates;
 use App\CommissionTask\Service\WeeklyWithdrawalHandler;
 use App\CommissionTask\Utils\CommissionFeeFormatter;
 use App\CommissionTask\Utils\CurrencyConverter;
+use Dotenv\Dotenv;
 
 // Read the operations from the CSV file
 // Read the CSV file path from the command line argument
@@ -32,12 +34,10 @@ try {
     throw new \RuntimeException('Error reading the CSV file: '.$e->getMessage());
 }
 
-
 // Load the .env file
 $dotenv = Dotenv::createUnsafeImmutable(__DIR__.'/../');
 $dotenv->load();
-$currencyApiURL = (string)getenv('CURRENCY_CONVERTER_API');
-
+$currencyApiURL = (string) getenv('CURRENCY_CONVERTER_API');
 
 // Convert the operations data to Operation objects
 $operationFactory = new OperationFactory();

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\CommissionTask\Reader;
 
 use Exception;
 
 /**
- * Class CsvReader
+ * Class CsvReader.
  *
  * Read data from a CSV file.
  */
@@ -16,9 +18,9 @@ class CsvReader
     /**
      * CsvReader constructor.
      *
-     * @param  string  $filePath  The path to the CSV file.
+     * @param string $filePath the path to the CSV file
      *
-     * @throws Exception If the file is not readable or not a CSV file.
+     * @throws Exception if the file is not readable or not a CSV file
      */
     public function __construct(string $filePath)
     {
@@ -29,9 +31,9 @@ class CsvReader
     /**
      * Read the CSV file and return its data as an array.
      *
-     * @return array The data read from the CSV file.
+     * @return array the data read from the CSV file
      *
-     * @throws Exception If unable to open the CSV file.
+     * @throws Exception if unable to open the CSV file
      */
     public function readFile(): array
     {
@@ -53,9 +55,9 @@ class CsvReader
     /**
      * Validate if the file is a readable CSV file.
      *
-     * @param  string  $filePath  The path to the file.
+     * @param string $filePath the path to the file
      *
-     * @throws Exception If the file is not readable or not a CSV file.
+     * @throws Exception if the file is not readable or not a CSV file
      */
     private function validateFile(string $filePath): void
     {

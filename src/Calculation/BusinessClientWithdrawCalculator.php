@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\CommissionTask\Calculation;
 
 use App\CommissionTask\Entity\Operation;
 use App\CommissionTask\Utils\CurrencyConverterInterface;
 
 /**
- * Class BusinessClientWithdrawCalculator
+ * Class BusinessClientWithdrawCalculator.
  *
  * Calculates the commission fee for business client withdrawals.
  */
@@ -19,7 +21,7 @@ class BusinessClientWithdrawCalculator
     /**
      * BusinessClientWithdrawCalculator constructor.
      *
-     * @param CurrencyConverterInterface $currencyConverter The currency converter used for currency conversion.
+     * @param CurrencyConverterInterface $currencyConverter the currency converter used for currency conversion
      */
     public function __construct(CurrencyConverterInterface $currencyConverter)
     {
@@ -29,8 +31,9 @@ class BusinessClientWithdrawCalculator
     /**
      * Calculates the commission fee for a business client withdrawal operation.
      *
-     * @param Operation $operation The withdrawal operation.
-     * @return float The commission fee amount.
+     * @param Operation $operation the withdrawal operation
+     *
+     * @return float the commission fee amount
      */
     public function calculateCommissionFee(Operation $operation): float
     {
@@ -38,7 +41,7 @@ class BusinessClientWithdrawCalculator
         $currency = $operation->getCurrency();
 
         // Convert the withdrawal amount to EUR using the currency converter
-        $convertedAmount = $this->currencyConverter->convert($amount, $currency, 'EUR');
+        $convertedAmount = $this->currencyConverter->convert((float) $amount, $currency, 'EUR');
 
         // Calculate the commission fee based on the converted amount and the withdrawal fee rate
         return $convertedAmount * self::WITHDRAWAL_FEE_RATE;

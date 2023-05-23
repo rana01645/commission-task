@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\CommissionTask\Factory;
 
 use App\CommissionTask\Entity\Operation;
 
 /**
- * Class OperationFactory
+ * Class OperationFactory.
  *
  * Factory for creating Operation objects.
  */
@@ -14,9 +16,9 @@ class OperationFactory
     /**
      * Create an Operation object from an array of data.
      *
-     * @param  array  $data  The array of data containing the operation details.
+     * @param array $data the array of data containing the operation details
      *
-     * @return Operation The created Operation object.
+     * @return Operation the created Operation object
      */
     public function createOperation(array $data): Operation
     {
@@ -33,9 +35,9 @@ class OperationFactory
     /**
      * Create an array of Operation objects from an array of data arrays.
      *
-     * @param  array  $dataArray  The array of data arrays containing the operation details.
+     * @param array $dataArray the array of data arrays containing the operation details
      *
-     * @return Operation[] The array of created Operation objects.
+     * @return Operation[] the array of created Operation objects
      */
     public function createOperationsFromArray(array $dataArray): array
     {
@@ -44,6 +46,7 @@ class OperationFactory
             $operation = $this->createOperation($data);
             $operations[] = $operation;
         }
+
         return $operations;
     }
 }

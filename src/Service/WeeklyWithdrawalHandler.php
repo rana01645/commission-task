@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\CommissionTask\Service;
 
 /**
- * Class WeeklyWithdrawalHandle
+ * Class WeeklyWithdrawalHandle.
  *
  * Handle weekly withdrawal operations for clients, considering withdrawal limits and amounts.
  */
@@ -17,7 +19,7 @@ class WeeklyWithdrawalHandler implements WeeklyWithdrawalHandlerInterface
     /**
      * WeeklyWithdrawalHandle constructor.
      *
-     * @param  array  $weeklyWithdrawals  The weekly withdrawal data for each client.
+     * @param array $weeklyWithdrawals the weekly withdrawal data for each client
      */
     public function __construct(array &$weeklyWithdrawals)
     {
@@ -27,11 +29,11 @@ class WeeklyWithdrawalHandler implements WeeklyWithdrawalHandlerInterface
     /**
      * Get the commissionable amount for a withdrawal operation.
      *
-     * @param  int  $clientId  The client ID.
-     * @param  float  $amount  The withdrawal amount.
-     * @param  string  $date  The withdrawal date.
+     * @param int    $clientId the client ID
+     * @param float  $amount   the withdrawal amount
+     * @param string $date     the withdrawal date
      *
-     * @return float The commissionable amount.
+     * @return float the commissionable amount
      */
     public function getCommissionableAmount(int $clientId, float $amount, string $date): float
     {
@@ -51,9 +53,11 @@ class WeeklyWithdrawalHandler implements WeeklyWithdrawalHandlerInterface
             if ($this->getClientCurrentWeekWithdrawals($clientId) + $amount > self::FREE_WITHDRAWAL_AMOUNT) {
                 $commissionableAmount = $amount - (self::FREE_WITHDRAWAL_AMOUNT - $this->getClientCurrentWeekWithdrawals($clientId));
                 $this->saveClientWithdrawalRecord($clientId, $amount);
+
                 return $commissionableAmount;
             }
             $this->saveClientWithdrawalRecord($clientId, $amount);
+
             return 0;
         }
 
@@ -70,10 +74,8 @@ class WeeklyWithdrawalHandler implements WeeklyWithdrawalHandlerInterface
     /**
      * Save the current week data for a client.
      *
-     * @param  int  $clientId  The client ID.
-     * @param  string  $withdrawalDate  The withdrawal date.
-     *
-     * @return void
+     * @param int    $clientId       the client ID
+     * @param string $withdrawalDate the withdrawal date
      */
     private function saveClientCurrentWeek(int $clientId, string $withdrawalDate): void
     {
@@ -91,26 +93,24 @@ class WeeklyWithdrawalHandler implements WeeklyWithdrawalHandlerInterface
     /**
      * Save the withdrawal amount for a client.
      *
-     * @param  int  $clientId  The client ID.
-     * @param  float  $withdrawalAmount  The withdrawal amount.
-     *
-     * @return void
+     * @param int   $clientId         the client ID
+     * @param float $withdrawalAmount the withdrawal amount
      */
     private function saveClientWithdrawalRecord(int $clientId, float $withdrawalAmount): void
     {
         if (!isset($this->weeklyWithdrawals[$clientId]['currentWeekWithdrawalsCount'])) {
             $this->weeklyWithdrawals[$clientId]['currentWeekWithdrawalsCount'] = 0;
         }
-        $this->weeklyWithdrawals[$clientId]['currentWeekWithdrawalsCount']++;
+        ++$this->weeklyWithdrawals[$clientId]['currentWeekWithdrawalsCount'];
         $this->weeklyWithdrawals[$clientId]['currentWeekWithdrawalsAmount'] += $withdrawalAmount;
     }
 
     /**
      * Check if the client has reached the withdrawals limit for the current week.
      *
-     * @param  int  $clientId  The client ID.
+     * @param int $clientId the client ID
      *
-     * @return bool True if the limit is reached, false otherwise.
+     * @return bool true if the limit is reached, false otherwise
      */
     private function isClientWithdrawalsLimitReached(int $clientId): bool
     {
@@ -120,9 +120,9 @@ class WeeklyWithdrawalHandler implements WeeklyWithdrawalHandlerInterface
     /**
      * Get the current week start date for a client.
      *
-     * @param  int  $clientId  The client ID.
+     * @param int $clientId the client ID
      *
-     * @return string|null The current week start date, or null if not available.
+     * @return string|null the current week start date, or null if not available
      */
     private function getClientCurrentWeekStart(int $clientId): ?string
     {
@@ -136,9 +136,9 @@ class WeeklyWithdrawalHandler implements WeeklyWithdrawalHandlerInterface
     /**
      * Get the total withdrawals amount for the current week of a client.
      *
-     * @param  int  $clientId  The client ID.
+     * @param int $clientId the client ID
      *
-     * @return float The total withdrawals amount.
+     * @return float the total withdrawals amount
      */
     private function getClientCurrentWeekWithdrawals(int $clientId): float
     {

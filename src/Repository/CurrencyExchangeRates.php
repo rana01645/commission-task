@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\CommissionTask\Repository;
 
 use Exception;
 
 /**
- * Class CurrencyExchangeRates
+ * Class CurrencyExchangeRates.
  *
  * Fetch and provide currency exchange rates from a JSON file or API endpoint.
  */
@@ -16,9 +18,9 @@ class CurrencyExchangeRates
     /**
      * CurrencyExchangeRates constructor.
      *
-     * @param  string  $fileUrl  The URL or path to the JSON file containing exchange rates.
+     * @param string $fileUrl the URL or path to the JSON file containing exchange rates
      *
-     * @throws Exception If failed to fetch exchange rates data or JSON decoding error.
+     * @throws Exception if failed to fetch exchange rates data or JSON decoding error
      */
     public function __construct(string $fileUrl)
     {
@@ -35,7 +37,7 @@ class CurrencyExchangeRates
     /**
      * Get the exchange rates.
      *
-     * @return array The exchange rates.
+     * @return array the exchange rates
      */
     public function getExchangeRates(): array
     {

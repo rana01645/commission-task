@@ -1,11 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\CommissionTask\Utils;
 
-use App\CommissionTask\Repository\CurrencyExchangeRates;
-
 /**
- * Class CurrencyConverter
+ * Class CurrencyConverter.
  *
  * Converts currency amounts based on exchange rates.
  */
@@ -16,7 +16,7 @@ class CurrencyConverter implements CurrencyConverterInterface
     /**
      * CurrencyConverter constructor.
      *
-     * @param  array  $currencyExchangeRates  array The exchange rates.
+     * @param array $currencyExchangeRates array The exchange rates
      */
     public function __construct(array $currencyExchangeRates)
     {
@@ -26,13 +26,13 @@ class CurrencyConverter implements CurrencyConverterInterface
     /**
      * Convert an amount from the base currency to the target currency.
      *
-     * @param  float  $amount  The amount to convert.
-     * @param  string  $baseCurrency  The base currency.
-     * @param  string  $targetCurrency  The target currency.
+     * @param float  $amount         the amount to convert
+     * @param string $baseCurrency   the base currency
+     * @param string $targetCurrency the target currency
      *
-     * @return float The converted amount.
+     * @return float the converted amount
      *
-     * @throws \RuntimeException If the exchange rate for the specified currency is not available.
+     * @throws \RuntimeException if the exchange rate for the specified currency is not available
      */
     public function convert(float $amount, string $baseCurrency, string $targetCurrency): float
     {
@@ -45,6 +45,7 @@ class CurrencyConverter implements CurrencyConverterInterface
         }
 
         $rate = $this->exchangeRates[$targetCurrency] / $this->exchangeRates[$baseCurrency];
+
         return $amount * $rate;
     }
 }
