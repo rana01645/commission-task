@@ -18,12 +18,28 @@ class CommissionCalculatorTest extends TestCase
 {
     public function testCalculateCommissionFee()
     {
-        $csvFilePath = __DIR__ . '/assets/input.csv';
 
-        // Read the operations from the CSV file
-        $csvReader = new CsvReader($csvFilePath);
+        //mock the csv reader
+        $csvReader = $this->createMock(CsvReader::class);
 
-        //mock the operationsData
+        //mock the data
+        $csvReader->method('readFile')->willReturn([
+            ['2014-12-31', 4, 'private', 'withdraw', '1200.00', 'EUR'],
+            ['2015-01-01', 4, 'private', 'withdraw', '1000.00', 'EUR'],
+            ['2016-01-05', 4, 'private', 'withdraw', '1000.00', 'EUR'],
+            ['2016-01-05', 1, 'private', 'deposit', '200.00', 'EUR'],
+            ['2016-01-06', 2, 'business', 'withdraw', '300.00', 'EUR'],
+            ['2016-01-06', 1, 'private', 'withdraw', '30000', 'JPY'],
+            ['2016-01-07', 1, 'private', 'withdraw', '1000.00', 'EUR'],
+            ['2016-01-07', 1, 'private', 'withdraw', '100.00', 'USD'],
+            ['2016-01-10', 1, 'private', 'withdraw', '100.00', 'EUR'],
+            ['2016-01-10', 2, 'business', 'deposit', '10000.00', 'EUR'],
+            ['2016-01-10', 3, 'private', 'withdraw', '1000.00', 'EUR'],
+            ['2016-02-15', 1, 'private', 'withdraw', '300.00', 'EUR'],
+            ['2016-02-19', 5, 'private', 'withdraw', '3000000', 'JPY'],
+
+        ]);
+
         $operationsData = $csvReader->readFile();
 
         // Convert the operations data to Operation objects
@@ -56,7 +72,7 @@ class CommissionCalculatorTest extends TestCase
         foreach ($operations as $operation) {
             if ($operation->getOperationType() === Operation::OPERATION_TYPE_DEPOSIT) {
                 $commissionFee = $depositCalculator->calculateCommissionFee($operation);
-            } else{
+            } else {
                 if ($operation->getUserType() === Operation::USER_TYPE_PRIVATE) {
                     $commissionFee = $privateWithdrawCalculator->calculateCommissionFee($operation);
                 } else {
@@ -78,7 +94,6 @@ class CommissionCalculatorTest extends TestCase
         $expectedFees = [
             '0.60', '3.00', '0.00', '0.06', '1.50', '0', '0.70', '0.30', '0.30', '3.00', '0.00', '0.00', '8612'
         ];
-
 
 
         // Assert that the calculated fees match the expected fees
