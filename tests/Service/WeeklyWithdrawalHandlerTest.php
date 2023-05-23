@@ -21,7 +21,7 @@ class WeeklyWithdrawalHandlerTest extends TestCase
         // Calculate the commissionable amount
         $commissionAmount = $handler->getCommissionableAmount($clientId, $amount, $date);
 
-        // Assert the commissionable amount is the same as the withdrawal amount
+        // Assert the commissionable amount is the same as the withdrawal amount < 1000
         $this->assertEquals(0, $commissionAmount);
     }
 

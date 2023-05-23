@@ -50,15 +50,15 @@ class WeeklyWithdrawalHandler implements WeeklyWithdrawalHandlerInterface
             // Check if the client has already withdrawn 1000.00 in the current week
             if ($this->getClientCurrentWeekWithdrawals($clientId) + $amount > self::FREE_WITHDRAWAL_AMOUNT) {
                 $commissionableAmount = $amount - (self::FREE_WITHDRAWAL_AMOUNT - $this->getClientCurrentWeekWithdrawals($clientId));
-                $this->saveClientWithdrawalAmount($clientId, $amount);
+                $this->saveClientWithdrawalRecord($clientId, $amount);
                 return $commissionableAmount;
             }
-            $this->saveClientWithdrawalAmount($clientId, $amount);
+            $this->saveClientWithdrawalRecord($clientId, $amount);
             return 0;
         }
 
         $this->saveClientCurrentWeek($clientId, $date);
-        $this->saveClientWithdrawalAmount($clientId, $amount);
+        $this->saveClientWithdrawalRecord($clientId, $amount);
 
         if ($amount > self::FREE_WITHDRAWAL_AMOUNT) {
             return $amount - self::FREE_WITHDRAWAL_AMOUNT;
@@ -96,13 +96,12 @@ class WeeklyWithdrawalHandler implements WeeklyWithdrawalHandlerInterface
      *
      * @return void
      */
-    private function saveClientWithdrawalAmount(int $clientId, float $withdrawalAmount): void
+    private function saveClientWithdrawalRecord(int $clientId, float $withdrawalAmount): void
     {
         if (!isset($this->weeklyWithdrawals[$clientId]['currentWeekWithdrawalsCount'])) {
             $this->weeklyWithdrawals[$clientId]['currentWeekWithdrawalsCount'] = 0;
         }
         $this->weeklyWithdrawals[$clientId]['currentWeekWithdrawalsCount']++;
-
         $this->weeklyWithdrawals[$clientId]['currentWeekWithdrawalsAmount'] += $withdrawalAmount;
     }
 
