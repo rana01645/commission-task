@@ -53,7 +53,7 @@ class PrivateClientWithdrawCalculatorTest extends TestCase
         // Set up the mock behavior
         $currencyConverterMock->expects($this->exactly(2))
             ->method('convert')
-            ->willReturnOnConsecutiveCalls(1500.00,1.5); // Mock the converted amount
+            ->willReturnOnConsecutiveCalls(1500.00,500.00); // Mock the converted amount
 
         $weeklyHandlerMock->expects($this->once())
             ->method('getCommissionAbleAmount')
@@ -69,7 +69,7 @@ class PrivateClientWithdrawCalculatorTest extends TestCase
         $commissionFee = $calculator->calculateCommissionFee($operation);
 
         // Assert the commission fee calculation
-        $this->assertEquals(1.5, $commissionFee); // Adjust the expected commission fee based on your logic
+        $this->assertEquals(1.5, $commissionFee); // Adjust the expected commission fee based on logic
     }
 
 }

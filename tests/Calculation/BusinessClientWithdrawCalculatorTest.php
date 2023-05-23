@@ -29,7 +29,7 @@ class BusinessClientWithdrawCalculatorTest extends TestCase
         $commissionFee = $calculator->calculateCommissionFee($operation);
 
         // Assert the commission fee calculation
-        $this->assertEquals(6.00, $commissionFee); // Adjust the expected commission fee based on your logic
+        $this->assertEquals(6.00, $commissionFee); // Adjust the expected commission fee based on logic
     }
 }
 
