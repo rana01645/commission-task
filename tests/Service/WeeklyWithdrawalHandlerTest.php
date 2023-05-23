@@ -7,11 +7,11 @@ use PHPUnit\Framework\TestCase;
 
 class WeeklyWithdrawalHandlerTest extends TestCase
 {
-    private $weeklyWithdrawals = [];
     public function testGetCommissionableAmount_WithinLimit()
     {
         // Create an instance of WeeklyWithdrawalHandler
-        $handler = new WeeklyWithdrawalHandler([]);
+        $weeklyWithdrawals = [];
+        $handler = new WeeklyWithdrawalHandler($weeklyWithdrawals);
 
         // Define the test data
         $clientId = 1;
@@ -28,7 +28,8 @@ class WeeklyWithdrawalHandlerTest extends TestCase
     public function testGetCommissionableAmount_ExceedLimit()
     {
         // Create an instance of WeeklyWithdrawalHandler
-        $handler = new WeeklyWithdrawalHandler([]);
+        $weeklyWithdrawals = [];
+        $handler = new WeeklyWithdrawalHandler($weeklyWithdrawals);
 
         // Define the test data
         $clientId = 1;
@@ -42,9 +43,11 @@ class WeeklyWithdrawalHandlerTest extends TestCase
         $this->assertEquals(500.00, $commissionableAmount);
     }
 
-    public function testWeeklyLimitOnCommision(){
+    public function testWeeklyLimitOnCommision()
+    {
 // Create an instance of WeeklyWithdrawalHandler
-        $handler = new WeeklyWithdrawalHandler($this->weeklyWithdrawals);
+        $weeklyWithdrawals = [];
+        $handler = new WeeklyWithdrawalHandler($weeklyWithdrawals);
 
         // Define the test data
         $clientId = 1;
@@ -79,14 +82,13 @@ class WeeklyWithdrawalHandlerTest extends TestCase
         // Assert the commissionable amount is the exceeded amount (1500 - 1000)
         $this->assertEquals(0, $commissionableAmount);
 
-        //4th transaction in same week should be charged
+        //4th transaction in same week should be charged the full amount
         $clientId = 1;
         $amount = 100.00;
         $date = '2023-05-19';
         $commissionableAmount = $handler->getCommissionableAmount($clientId, $amount, $date);
-        echo $commissionableAmount;
 
-       print_r($this->weeklyWithdrawals);
+        $this->assertEquals(100, $commissionableAmount);
 
     }
 

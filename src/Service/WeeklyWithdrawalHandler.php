@@ -101,6 +101,7 @@ class WeeklyWithdrawalHandler implements WeeklyWithdrawalHandlerInterface
         if (!isset($this->weeklyWithdrawals[$clientId]['currentWeekWithdrawalsCount'])) {
             $this->weeklyWithdrawals[$clientId]['currentWeekWithdrawalsCount'] = 0;
         }
+        $this->weeklyWithdrawals[$clientId]['currentWeekWithdrawalsCount']++;
 
         $this->weeklyWithdrawals[$clientId]['currentWeekWithdrawalsAmount'] += $withdrawalAmount;
     }
